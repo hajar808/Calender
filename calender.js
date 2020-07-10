@@ -14,7 +14,7 @@
                     id: 'main'
                 }
             },
-            css: ["ccm.load", "./calender.css"],
+            css: ["ccm.load", "https://github.com/hajar808/Calender/blob/master/calender.css"],
 
         },
 
