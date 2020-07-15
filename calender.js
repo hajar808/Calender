@@ -60,7 +60,7 @@
                     ]
                 }
             },
-            css: ["ccm.load", ".https://hajar808.github.io/Calender/calender.css"],
+            css: ["ccm.load", "https://hajar808.github.io/Calender/calender.css"],
 
         },
 
