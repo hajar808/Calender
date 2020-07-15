@@ -11,10 +11,56 @@
         config: {
             html: {
                 main: {
-                    id: 'main'
+                    id: 'main',
+                    inner: [
+                        {
+                            tag: 'div',
+                            class: 'month',
+                            id: 'month-container',
+                            inner: [
+                                {
+                                    tag: 'ul',
+                                    inner: [
+                                        {
+                                            tag: 'li' ,
+                                            class: 'prev' ,
+                                            inner: '&#10094;',
+                                            onclick: '%prev%'
+
+
+                                        },
+                                        {
+                                            tag: 'li',
+                                            class: 'next',
+                                            id: 'next-btn',
+                                            onclick: '%next%',
+                                            inner: '&#10095;'
+                                        },
+                                        {
+                                            tag: 'li',
+                                            id: 'month-value'
+
+                                        }
+                                    ]
+
+                                }
+                            ]
+                        },
+                        {
+                            tag:'ul',
+                            class: 'weekdays',
+                            id:'weekdays'
+                        },
+                        {
+                            tag:'ul',
+                            class: 'days',
+                            id: 'days'
+                        }
+
+                    ]
                 }
             },
-            css: ["ccm.load", "https://github.com/hajar808/Calender/blob/master/calender.css"],
+            css: ["ccm.load", "./calender.css"],
 
         },
 
@@ -43,73 +89,142 @@
             };
 
 
-
             this.start = async () => {
-                const calender = $.html(self.html.main);
+                const calender = $.html(self.html.main, {
+                    next: function (e) {
+                        month++;
+                        if(month === 12){
+                            month = 0;
+                            year++;
+                        }
+                        createMonth(month, year);
+                        createday(year, month);
+                    },
+                    prev: function (e) {
+                        month--;
+                        if(month < 0){
+                            month =11;
+                            year--;
 
-                calender.innerHTML = ' <div class="month">      \n' +
-                    '  <ul>\n' +
-                    '    <li class="prev">&#10094;</li>\n' +
-                    '    <li class="next">&#10095;</li>\n' +
-                    '    <li>\n' +
-                    '      Juli<br>\n' +
-                    '      <span style="font-size:18px">2020</span>\n' +
-                    '    </li>\n' +
-                    '  </ul>\n' +
-                    '</div>\n' +
-                    '\n' +
-                    '<ul class="weekdays">\n' +
-                    '  <li>Mo</li>\n' +
-                    '  <li>Tu</li>\n' +
-                    '  <li>We</li>\n' +
-                    '  <li>Th</li>\n' +
-                    '  <li>Fr</li>\n' +
-                    '  <li>Sa</li>\n' +
-                    '  <li>Su</li>\n' +
-                    '</ul>\n' +
-                    '\n' +
-                    '<ul class="days">  \n' +
-                    '  <li>1</li>\n' +
-                    '  <li>2</li>\n' +
-                    '  <li>3</li>\n' +
-                    '  <li>4</li>\n' +
-                    '  <li>5</li>\n' +
-                    '  <li>6</li>\n' +
-                    '  <li>7</li>\n' +
-                    '  <li>8</li>\n' +
-                    '  <li>9</li>\n' +
-                    '  <li><span class="active">10</span></li>\n' +
-                    '  <li>11</li>\n' +
-                    '  <li>12</li>\n' +
-                    '  <li>13</li>\n' +
-                    '  <li>14</li>\n' +
-                    '  <li>15</li>\n' +
-                    '  <li>16</li>\n' +
-                    '  <li>17</li>\n' +
-                    '  <li>18</li>\n' +
-                    '  <li>19</li>\n' +
-                    '  <li>20</li>\n' +
-                    '  <li>21</li>\n' +
-                    '  <li>22</li>\n' +
-                    '  <li>23</li>\n' +
-                    '  <li>24</li>\n' +
-                    '  <li>25</li>\n' +
-                    '  <li>26</li>\n' +
-                    '  <li>27</li>\n' +
-                    '  <li>28</li>\n' +
-                    '  <li>29</li>\n' +
-                    '  <li>30</li>\n' +
-                    '  <li>31</li>\n' +
-                    '</ul>';
+                        }
+                        createMonth(month, year);
+                        createday(year, month);
 
-    // set content of own website area
-    $.setContent(self.element, calender);
+                    }
 
-};
-  
-      }
-  
+                });
+                createWeekdays();
+                const date = new Date();
+                createday(date.getFullYear(), date.getMonth());
+                let month= date.getMonth();
+                let year = date.getFullYear();
+                createMonth(month, year);
+
+                // set content of own website area
+                $.setContent(self.element, calender);
+
+                function createWeekdays(){
+                    const weekdays = calender.querySelector('#weekdays');
+                    const days =['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag' ,'Freitag', 'Samstag', 'Sonntag'];
+
+                    /*
+                    days.forEach(day => {
+                        const li = document.createElement('li');
+                        li.innerText = day;
+                        weekdays.appendChild(li);
+                    });
+
+                     */
+
+
+                    for(let i = 0; i < days.length; ++i ){
+                        let day = days[i];
+                        const li = document.createElement('li');
+                        li.innerText = day;
+                        weekdays.appendChild(li);
+
+                    }
+
+
+                }
+
+                function createday(year, month) {
+                    const day = calender.querySelector('#days');
+                    day.innerHTML = "";
+                    const date = new Date();
+                    const firstDayOfMonth = new Date(year, month ,1).getDay();
+                    for(let i = 1; i <firstDayOfMonth ; ++i){
+                        const li = document.createElement("li");
+                        li.innerText = "";
+                        day.appendChild(li);
+                    }
+                    const numberOfDays = new Date(year, month + 1, 0).getDate();
+                    let isCurrentDay = false ;
+                    if(date.getFullYear() === year && date.getMonth() === month){
+                        isCurrentDay = true;
+
+                    }
+                    const currentDay = date.getDate();
+                    for(let i=1 ; i<= numberOfDays ; ++i){
+
+                        const li = document.createElement("li");
+                        if(isCurrentDay && currentDay=== i){
+                            const span = document.createElement("span");
+                            span.classList.add('active');
+                            span.innerText = i;
+                            li.appendChild(span);
+                        }else{
+                            li.innerText = i;
+                        }
+
+                        day.appendChild(li);
+
+                    }
+
+                }
+
+                function createMonth(i,year) {
+                    const months =['Januar', 'Februar', 'M'+'&#228;'+'rz',
+                        'April', 'Mai','Juni', 'Juli', 'August',
+                        'September', 'Oktober', 'November','Dezember'];
+                    const month = calender.querySelector('#month-value');
+                    //const i = new Date().getMonth();
+                    const m = months[i];
+                    const span = document.createElement("span");
+                    span.style.fontSize = "18px";
+                    span.innerText = year;
+
+                    month.innerHTML = m + '<br>';
+                    month.appendChild(span);
+
+
+
+                }
+
+            };
+
+
+
+        }
+
     };
 
-function p() { window.ccm[v].component(component) } var f = "ccm." + component.name + (component.version ? "-" + component.version.join(".") : "") + ".js"; if (window.ccm && null === window.ccm.files[f]) window.ccm.files[f] = component; else { var n = window.ccm && window.ccm.components[component.name]; n && n.ccm && (component.ccm = n.ccm), "string" == typeof component.ccm && (component.ccm = { url: component.ccm }); var v = component.ccm.url.split("/").pop().split("-"); if (v.length > 1 ? (v = v[1].split("."), v.pop(), "min" === v[v.length - 1] && v.pop(), v = v.join(".")) : v = "latest", window.ccm && window.ccm[v]) p(); else { var e = document.createElement("script"); document.head.appendChild(e), component.ccm.integrity && e.setAttribute("integrity", component.ccm.integrity), component.ccm.crossorigin && e.setAttribute("crossorigin", component.ccm.crossorigin), e.onload = function () { p(), document.head.removeChild(e) }, e.src = component.ccm.url } }
-  }() );
+
+
+    function p() {
+        window.ccm[v].component(component)
+    }
+
+    var f = "ccm." + component.name + (component.version ? "-" + component.version.join(".") : "") + ".js";
+    if (window.ccm && null === window.ccm.files[f]) window.ccm.files[f] = component; else {
+        var n = window.ccm && window.ccm.components[component.name];
+        n && n.ccm && (component.ccm = n.ccm), "string" == typeof component.ccm && (component.ccm = {url: component.ccm});
+        var v = component.ccm.url.split("/").pop().split("-");
+        if (v.length > 1 ? (v = v[1].split("."), v.pop(), "min" === v[v.length - 1] && v.pop(), v = v.join(".")) : v = "latest", window.ccm && window.ccm[v]) p(); else {
+            var e = document.createElement("script");
+            document.head.appendChild(e), component.ccm.integrity && e.setAttribute("integrity", component.ccm.integrity), component.ccm.crossorigin && e.setAttribute("crossorigin", component.ccm.crossorigin), e.onload = function () {
+                p(), document.head.removeChild(e)
+            }, e.src = component.ccm.url
+        }
+    }
+}());

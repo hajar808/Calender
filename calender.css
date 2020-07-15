@@ -22,11 +22,13 @@ body {font-family: Verdana, sans-serif;}
 }
 
 .month .prev {
+  cursor:  pointer;
   float: left;
   padding-top: 10px;
 }
 
 .month .next {
+  cursor: pointer;
   float: right;
   padding-top: 10px;
 }
