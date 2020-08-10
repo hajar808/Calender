@@ -95,7 +95,7 @@
                 $ = this.ccm.helper;
                 const cal = $.html(self.html.main);
                 console.log(cal);
-                cal.name = create_UUID();
+                cal.setAttribute('name', create_UUID());
                 console.log(cal);
             };
 
