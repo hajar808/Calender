@@ -1,8 +1,16 @@
+/**
+ * @overview ccm component to display calendar
+ * @author hajar menssouri <hajar.menssouri@smail.inf.h-brs.de>, 2020
+ * @license The MIT License (MIT)
+ * @version latest (1.0.0)
+ * */
+
+
 (function () {
 
     var component = {
 
-        name: 'calender',
+        name: 'calendar',
         version: [1, 0, 0],
 
         ccm: 'https://ccmjs.github.io/ccm/versions/ccm-24.0.1.js',
@@ -12,6 +20,7 @@
             html: {
                 main: {
                     id: 'main',
+                    name: create_UUID(),
                     inner: [
                         {
                             tag: 'div',
@@ -60,7 +69,7 @@
                     ]
                 }
             },
-            css: ["ccm.load", "https://hajar808.github.io/Calender/calender.css"],
+            css: ["ccm.load", "https://hajar808.github.io/Calender/resources/calendar.css"]
 
         },
 
@@ -209,7 +218,15 @@
 
     };
 
-
+    function create_UUID(){
+        let dt = new Date().getTime();
+        let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (dt + Math.random()*16)%16 | 0;
+            dt = Math.floor(dt/16);
+            return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+        });
+        return 'calendar-' + uuid;
+    }
 
     function p() {
         window.ccm[v].component(component)
