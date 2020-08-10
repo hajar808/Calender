@@ -20,7 +20,6 @@
             html: {
                 main: {
                     id: 'main',
-                    name: create_UUID(),
                     inner: [
                         {
                             tag: 'div',
@@ -94,7 +93,10 @@
 
                 // set shortcut to help functions
                 $ = this.ccm.helper;
-
+                const cal = $.html(self.html.main);
+                console.log(cal);
+                cal.name = create_UUID();
+                console.log(cal);
             };
 
 
