@@ -14,7 +14,7 @@
         version: [1, 0, 0],
 
         ccm: 'https://ccmjs.github.io/ccm/versions/ccm-24.0.1.js',
-       
+
 
         config: {
             html: {
