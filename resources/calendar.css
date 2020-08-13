@@ -5,8 +5,9 @@ body {font-family: Verdana, sans-serif;}
 .month {
   padding: 70px 25px;
   width: 100%;
-  background: lightblue;
+  background: lightsalmon;
   text-align: center;
+
 }
 
 .month ul {
@@ -266,6 +267,30 @@ hr {
 }
 .mark{
   padding: 5px;
-  background: coral;
-  color: darkblue;
+  /*background: coral;*/
+  color: lightcoral;
+  border-radius: 20%;
+  border: solid;
+
 }
+#month-name{
+  margin-left: 45%;
+  font-family: cursive;
+}
+
+#time{
+  margin-left: 40%;
+  font-family: cursive;
+}
+
+#speech{
+  width: 300px;
+  color : white;
+  font-family: cursive;
+  font-size: 13pt;
+}
+.year{
+  font-family: cursive;
+
+}
+

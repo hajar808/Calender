@@ -47,6 +47,10 @@
                                             inner: '&#10095;'
                                         },
                                         {
+                                          tag: 'p',
+                                          id: 'speech'
+                                        },
+                                        {
                                             tag: 'li',
                                             id: 'month-value'
 
@@ -131,7 +135,7 @@
                     ]
                 }
             },
-            css: ["ccm.load", "resources/calendar.css"]
+            css: ["ccm.load", "https://hajar808.github.io/Calender/resources/calendar.css"]
 
         },
 
@@ -257,10 +261,9 @@
                         li.addEventListener('click',function(e){
                             calender.querySelector("#myUL").innerHTML = '';
                             selectedDay =  "day"+i + "" + (month+ 1) +""+ year;
-                            console.log(selectedDay)
+
                             self.db.get(selectedDay).then(
                                 existToDos =>{
-                                    console.log(existToDos)
 
                                     if(existToDos && existToDos.value){
                                         setElement(existToDos.value);
@@ -276,7 +279,7 @@
                             data=> {
                                 if(data){
                                     data.forEach(item => {
-                                        if(item.key=== dayid){
+                                        if(item.key=== dayid && item.value.length > 0){
                                             span.classList.add("mark");
                                         }
                                     })
@@ -309,34 +312,57 @@
                         'September', 'Oktober', 'November', 'Dezember'];
                     const month = calender.querySelector('#month-value');
                     //const i = new Date().getMonth();
-                    const m = months[i];
+                    const m = '<span  id="month-name">' +months[i] + '</span><span id = "time"></span>';
                     const span = document.createElement("span");
+                    span.classList.add("year");
                     span.style.fontSize = "18px";
                     span.innerText = year;
 
                     month.innerHTML = m + '<br>';
                     month.appendChild(span);
+                    startTime();
+                    displaySpeech();
 
 
                 }
 
                 function setElement(toDos){
-                    console.log("set element")
                     for(let i= 0; i< toDos.length ; i++){
-                        console.log("inner for")
                         var li = document.createElement("li");
                         var inputValue = toDos[i];
-                        console.log(inputValue)
                         var t = document.createTextNode(inputValue);
                         li.appendChild(t);
                         calender.querySelector("#myUL").appendChild(li);
-                        console.log(li)
                         var span = document.createElement("SPAN");
                         var txt = document.createTextNode("\u00D7");
                         span.className = "close";
                         span.appendChild(txt);
                         span.onclick = function () {
                             li.style.display = "none";
+                            self.db.get(selectedDay).then(
+                                existToDos =>{
+                                    if(existToDos && existToDos.value){
+                                        let index = -1;
+                                        for(let i =0; i< existToDos.value.length; i++){
+                                            let value = existToDos.value[i];
+                                            console.log(value, inputValue)
+                                            if(value === inputValue){
+                                                index = i;
+                                                break;
+                                            }
+                                        }
+                                        if(index !== -1) {
+                                            existToDos.value.splice(index, 1);
+                                            if(existToDos.value.length === 0){
+                                                let mark = calender.querySelector("#"+ selectedDay);
+                                                let deleteSpan = mark.querySelector("span");
+                                                deleteSpan.classList.remove("mark");
+                                            }
+                                            self.db.set({key: selectedDay, value: existToDos.value});
+                                        }
+                                    }
+                                }
+                            )
                         }
                         li.appendChild(span);
                     }
@@ -376,14 +402,71 @@
                     var txt = document.createTextNode("\u00D7");
                     span.className = "close";
                     span.appendChild(txt);
+
                     span.onclick = function () {
                         li.style.display = "none";
+                        self.db.get(selectedDay).then(
+                            existToDos =>{
+                                if(existToDos && existToDos.value){
+                                    let index = -1;
+                                    for(let i =0; i< existToDos.value.length; i++){
+                                        let value = existToDos.value[i];
+                                        console.log(value, inputValue)
+                                        if(value === inputValue){
+                                            index = i;
+                                            break;
+                                        }
+                                    }
+                                    if(index !== -1) {
+                                        existToDos.value.splice(index, 1);
+                                        console.log(existToDos)
+                                        if(existToDos.value.length === 0){
+                                            let mark = calender.querySelector("#"+ selectedDay);
+                                            mark.classList.remove("mark");
+                                        }
+                                        self.db.set({key: selectedDay, value: existToDos.value});
+                                    }
+                                }
+                            }
+                        )
                     }
                     li.appendChild(span);
 
 
                 }
 
+                function startTime() {
+                    var today = new Date();
+                    var h = today.getHours();
+                    var m = today.getMinutes();
+                    var s = today.getSeconds();
+                    m = checkTime(m);
+                    s = checkTime(s);
+                    calender.querySelector('#time').innerHTML = h + ":" + m + ":" + s;
+                    var t = setTimeout(startTime, 500);
+                }
+                function checkTime(i) {
+                    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+                    return i;
+                }
+
+                function displaySpeech(){
+                    calender.querySelector("#speech").innerHTML= getSpeech();
+                    setTimeout(displaySpeech, 20000);
+                }
+
+                function getSpeech(){
+                    let speeches = ['Zeit ist das, was man an der Uhr abliest','Die Leute, die niemals Zeit haben, tun am wenigsten','\t\n' +
+                    unescape("Die Jugend w%E4re eine sch%F6nere Zeit%2C wenn sie erst sp%E4ter im Leben k%E4me."),'\n' +
+                    unescape("Jetzt sind die guten alten Zeiten%2C nach denen wir uns in zehn Jahren zur%FCcksehnen.")];
+                    let index = getRandomInt(speeches.length);
+                    let speech = speeches[index];
+                    return speech;
+
+                }
+                function getRandomInt(max) {
+                    return Math.floor(Math.random() * Math.floor(max));
+                }
             };
 
 
