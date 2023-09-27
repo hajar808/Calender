@@ -1,37 +1,7 @@
-## Welcome to my calendar web components
-
-You can use the [editor on GitHub](https://github.com/hajar808/Calender/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hajar808/Calender/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+# Calender
+Zur einfache Wiederverwendung von Kalendar-Element in Webseiten wurde diese Web-Komponente umgesetzt.
+Umsetzung dieser Web-Komponente erfolgte auf Basis der CCM-Framework. Die ccm-Framework wird als freie Software unter MIT-Lizenz veröffentlicht, und ist unter der URL: https://github.com/ccmjs/ccm
+zu finden. Basierend auf dieses Framework wird die ccm-Komponente erstellt. Die ccmKomponente ist eine JavaScript-Datei, welches mit Nativen Web-Technologien
+JavaScript, HTML und CSS funktioniert. Jede ccm-Komponente kann in jedem Web-bereich eingebettet ausgeführt werden. Ein
+Platz wo man diese Komponente finden bzw. veröffentlichen kann ist der „Digital
+Makerspace“.
